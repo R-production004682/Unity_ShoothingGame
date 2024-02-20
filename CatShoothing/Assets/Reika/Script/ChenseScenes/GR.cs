@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class scenes : MonoBehaviour
+public class GR : MonoBehaviour
 {
     public void ChengeScene_GR() {
         SceneManager.LoadScene("ResultScene");
