@@ -1,45 +1,27 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class CatController : MonoBehaviour
 {
-    [SerializeField] private float catMoveSpeed;
-    [SerializeField] private float waitTime;
+    [SerializeField , Tooltip("猫の移動スピード")] private float catMoveSpeed;
+    [SerializeField , Tooltip("待機時間")] private float waitTime;
 
     private Vector2 startPosition;
+    private Vector2 moveDirection = Vector2.right;
+    private Animator anim;
+    private GameManager gameManager;
 
-
-    private void Start()
-    {
-        
-    }
-
-
-    private void Update( )
-    {
-        
-    }
-
-    
-    private void Move()
-    {
-
-        //移動制限まで行ったら、
-        //トランザクションの休憩か、Sleepを呼び出し、アニメーションの再生が終わったらY軸に180度オブジェクトを回転させて徘徊させ直す。
-        //それを繰り返す。
-    }
 
     /// <summary>
-    /// ネコの移動に制限をかける
+    /// GameManagerから位置情報を受け取る
     /// </summary>
-    private void MovementRestrictions()
+    public void SetStartPosition(Vector2 position)
     {
-
+        startPosition = position;
+        transform.position = startPosition;
     }
-
-
-
 
 }
