@@ -13,8 +13,8 @@ public class Player : MonoBehaviour
         Vector3 currentPosition = transform.position;
 
         float newXPosition = currentPosition.x + x * Time.deltaTime * speed;
-        newXPosition = Mathf.Clamp(newXPosition, -8.0f, 8.0f);
+        newXPosition = Mathf.Clamp(newXPosition,-8.3f,8.5f);
 
-        transform.position = new Vector2(newXPosition, -4.0f);
+        transform.position = new Vector2(newXPosition, 0.0f);
     }
 }
