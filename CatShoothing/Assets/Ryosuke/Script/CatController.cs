@@ -6,98 +6,100 @@ using UnityEngine;
 
 public class CatController : MonoBehaviour
 {
-    [SerializeField , Tooltip("猫の移動スピード")] private float cat_speed;
-    [SerializeField , Tooltip("待機時間")] private float wait_time;
-    [SerializeField, Tooltip("移動量")] private float cat_movement;
+    [SerializeField, Tooltip("猫の移動スピード")] private float catSpeed;
+    [SerializeField, Tooltip("待機時間")] private float waitTime;
+    [SerializeField, Tooltip("移動量")] private float catMovement;
 
-    Spawner spawner = new Spawner();
+    private Vector2 startPosition;
+    private Vector2 originPosition;
 
-    private Vector2 start_position;
-    private Vector2 origine_position;
+    private Animator anim;
 
-    Animator anim;
+    private bool isMovingRight = true;
+    private bool isWaiting = false;
+    private float waitTimer = 0f;
 
-    bool canMove = true;
-    bool canBreakTime;
-    bool canSleep;
-    bool canEating;
-
-
-    public void Start()
+    private void Start()
     {
-        //オブジェクトの原点を設定
-        origine_position = this.transform.position;
+        originPosition = transform.position;
         anim = GetComponent<Animator>();
 
-        cat_movement = UnityEngine.Random.Range(0, cat_movement);
+        catMovement = UnityEngine.Random.Range(0, catMovement);
 
-        Debug.Log(origine_position);
-
+        Debug.Log(originPosition);
     }
 
-
-    public void Update()
+    private void Update()
     {
-        //移動した先で被らないように設定
-        if (spawner != null) { spawner.IsPositionValid(start_position); }
-
-        Vector2 current_position = this.transform.position;
-
-
-        if (canMove)
+        if (isWaiting)
         {
-            //右に移動
-            if (current_position.x <= start_position.x + cat_movement)
+            waitTimer -= Time.deltaTime;
+            if (waitTimer <= 0f)
             {
-                anim.SetBool("IsMove", true);
-
-                transform.Translate(Vector2.right * cat_speed * Time.deltaTime);
-            }
-            else
-            {
-                anim.SetBool("IsMove", false);
-                Vector2 direction = new Vector3(0.0f , 180.0f , 0.0f);
-                transform.rotation = Quaternion.Euler(direction);
-                canMove = false;
+                isWaiting = false;
+                waitTimer = 0f;
             }
         }
-        
-
-
-        if(!canMove)
+        else
         {
-            //左に移動
-            if (origine_position.x - cat_movement <= current_position.x)
+            Vector2 currentPosition = transform.position;
+
+            if (isMovingRight)
             {
-                anim.SetBool("IsMove", true);
-                transform.Translate((-Vector2.left * cat_speed) * Time.deltaTime);
-                
+                MoveRight(currentPosition);
             }
             else
             {
-                anim.SetBool("IsMove", false);
-
-                Vector2 direction = new Vector3(0.0f, 0.0f, 0.0f);
-                transform.rotation = Quaternion.Euler(direction);
-
-                canMove = true;
+                MoveLeft(currentPosition);
             }
         }
     }
 
+    private void MoveRight(Vector2 currentPosition)
+    {
+        if (currentPosition.x <= startPosition.x + catMovement)
+        {
+            anim.SetBool("IsMove", true);
+            transform.Translate(Vector2.right * catSpeed * Time.deltaTime);
+        }
+        else
+        {
+            anim.SetBool("IsMove", false);
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            isMovingRight = false;
+            StartWait();
+        }
+    }
+
+    private void MoveLeft(Vector2 currentPosition)
+    {
+        if (originPosition.x - catMovement <= currentPosition.x)
+        {
+            anim.SetBool("IsMove", true);
+            transform.Translate(-Vector2.left * catSpeed * Time.deltaTime);
+        }
+        else
+        {
+            anim.SetBool("IsMove", false);
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            isMovingRight = true;
+            StartWait();
+        }
+    }
+
+    private void StartWait()
+    {
+        isWaiting = true;
+        waitTimer = waitTime;
+    }
 
     /// <summary>
     /// GameManagerから位置情報を受け取る
     /// </summary>
     public void SetStartPosition(Vector2 position)
     {
-        start_position = position;
-        transform.position = start_position;
-    }
+        startPosition = position;
 
-
-    public void SetCanMove(bool move)
-    {
-        canMove = move;
+        transform.position = startPosition;
     }
 }

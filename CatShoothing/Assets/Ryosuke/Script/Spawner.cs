@@ -9,14 +9,14 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField, Tooltip("猫のプレハブを格納")]
     protected List<GameObject> cats;
-    [SerializeField, Tooltip("プレハブ内から何匹ランダムでスポーンさせるか")]
+    [SerializeField, Tooltip("スポーンの最小生成数")]
     protected int random_pickUp;
 
     //スポーン描画上限を設定
     public float spawning_upper_limitX = 6.0f;
     public float spawning_upper_limitY = 4.0f;
 
-    public List<Vector2> spawn_cat_ferstPositions = new List<Vector2>();
+    private List<Vector2> spawn_cat_ferstPositions = new List<Vector2>();
 
 
     private void Start()
@@ -82,10 +82,6 @@ public class Spawner : MonoBehaviour
         {
             if (Vector2.Distance(position, spawn_cat_position) < 1.0f) return false;
         }
-
         return true;
     }
-
-
-
 }
