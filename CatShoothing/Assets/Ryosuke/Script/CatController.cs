@@ -10,13 +10,15 @@ public class CatController : MonoBehaviour
     [SerializeField, Tooltip("待機時間")] private float waitTime;
     [SerializeField, Tooltip("移動量")] private float catMovement;
 
+    [SerializeField, Tooltip("猫のBoxColliderを格納しておく場所")]
+    private Collider2D col;
+
     private Vector2 startPosition;
     private Vector2 originPosition;
-
     private Animator anim;
-
     private bool isMovingRight = true;
-    private bool isWaiting = false;
+    private bool isWaiting;
+    private bool isBreakTime;
     private float waitTimer = 0f;
 
     private void Start()
@@ -26,7 +28,7 @@ public class CatController : MonoBehaviour
 
         catMovement = UnityEngine.Random.Range(0, catMovement);
 
-        Debug.Log(originPosition);
+        col.enabled = true;
     }
 
     private void Update()
@@ -60,7 +62,9 @@ public class CatController : MonoBehaviour
         if (currentPosition.x <= startPosition.x + catMovement)
         {
             anim.SetBool("IsMove", true);
-            transform.Translate(Vector2.right * catSpeed * Time.deltaTime);
+
+            if (!isBreakTime) { transform.Translate(Vector2.zero); }
+            else { transform.Translate(Vector2.right * catSpeed * Time.deltaTime); }
         }
         else
         {
@@ -76,7 +80,8 @@ public class CatController : MonoBehaviour
         if (originPosition.x - catMovement <= currentPosition.x)
         {
             anim.SetBool("IsMove", true);
-            transform.Translate(-Vector2.left * catSpeed * Time.deltaTime);
+            if (!isBreakTime) { transform.Translate(Vector2.zero); }
+            else { transform.Translate(-Vector2.left * catSpeed * Time.deltaTime); }
         }
         else
         {
@@ -102,4 +107,36 @@ public class CatController : MonoBehaviour
 
         transform.position = startPosition;
     }
+
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("PlayerBullet"))
+        {
+            isBreakTime = true;
+            col.enabled = false;
+
+            PoolContent poolObj = other.GetComponent<PoolContent>();
+            poolObj.Hide();
+
+            //食べて寝るモーションの再生（一度当たったらここでモーションをループさせる）
+            {
+                anim.SetBool("IsEat", true);
+                StartCoroutine(EatingTime_And_SleepTime());
+            }
+        }
+    }
+
+    private IEnumerator EatingTime_And_SleepTime()
+    {
+        float eatingTime =  UnityEngine.Random.Range(2.0f , 4.0f);
+        yield return new WaitForSeconds(eatingTime);
+
+        anim.SetBool("IsEat" , false);
+        anim.SetBool("IsReadySleep", true);
+
+    }
+
+
+
 }
