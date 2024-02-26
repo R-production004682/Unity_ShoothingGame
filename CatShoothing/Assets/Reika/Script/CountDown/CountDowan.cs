@@ -1,18 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CountDowan : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public float totalTime = 30f;
+    private float currentTime;
+    private Text countdownText;
+
     void Start()
     {
-        
+        countdownText = GetComponent<Text>();
+        currentTime = totalTime;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        currentTime -= Time.deltaTime;
+
+        if (currentTime <= 0) { currentTime = 0; }
+
+        UpdateCountdownText();
     }
+
+    void UpdateCountdownText() => countdownText.text = Mathf.Ceil(currentTime).ToString();
 }
