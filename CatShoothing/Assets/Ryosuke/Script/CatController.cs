@@ -63,7 +63,7 @@ public class CatController : MonoBehaviour
         {
             anim.SetBool("IsMove", true);
 
-            if (!isBreakTime) { transform.Translate(Vector2.zero); }
+            if (isBreakTime == true) { transform.Translate(Vector2.zero); }
             else { transform.Translate(Vector2.right * catSpeed * Time.deltaTime); }
         }
         else
@@ -80,7 +80,7 @@ public class CatController : MonoBehaviour
         if (originPosition.x - catMovement <= currentPosition.x)
         {
             anim.SetBool("IsMove", true);
-            if (!isBreakTime) { transform.Translate(Vector2.zero); }
+            if (isBreakTime == true) { transform.Translate(Vector2.zero); }
             else { transform.Translate(-Vector2.left * catSpeed * Time.deltaTime); }
         }
         else
@@ -123,6 +123,7 @@ public class CatController : MonoBehaviour
             {
                 anim.SetBool("IsEat", true);
                 StartCoroutine(EatingTime_And_SleepTime());
+
             }
         }
     }
@@ -135,6 +136,10 @@ public class CatController : MonoBehaviour
         anim.SetBool("IsEat" , false);
         anim.SetBool("IsReadySleep", true);
 
+        yield return new WaitForSeconds(2.0f);
+
+        anim.SetBool("IsReadySleep", false);
+        anim.SetBool("IsSleep", true);
     }
 
 
