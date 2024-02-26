@@ -9,16 +9,9 @@ public class PlayerController : MonoBehaviour
     private float interval = .0f;
     private ObjectPool bulletPool;
 
-    private void Start()
-    {
-        bulletPool = StageContoller.Instance.p_BulletPool;
-    }
+    private void Start() => bulletPool = StageContoller.Instance.p_BulletPool;
 
-
-    void Update()
-    {
-        interval -= Time.deltaTime;
-    }
+    void Update() => interval -= Time.deltaTime;
 
 
     /// <summary>
@@ -26,12 +19,15 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void PlayerMovement(float horizontal , Vector3 currentPosition)
     {
-        currentPosition = this.transform.localPosition;
+        currentPosition    = this.transform.localPosition;
         float newXPosition = currentPosition.x + horizontal * Time.deltaTime * playerMoveSpeed;
         transform.position = new Vector2(newXPosition, -4.0f);
     }
 
 
+    /// <summary>
+    /// éÀåÇÇÃèàóù
+    /// </summary>
     public void Shot()
     {
         if (interval <= .0f)

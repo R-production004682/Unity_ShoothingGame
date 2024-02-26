@@ -22,6 +22,4 @@ public class BulletMove : MonoBehaviour
             poolContent.Hide();
         }
     }
-
-
 }
