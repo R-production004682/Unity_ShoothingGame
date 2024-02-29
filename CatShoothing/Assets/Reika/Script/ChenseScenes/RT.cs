@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class RT : MonoBehaviour
+public class RT
 {
     public void ChengeScene_RT()
     {
