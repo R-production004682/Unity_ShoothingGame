@@ -11,6 +11,12 @@ public class ObjectPool : MonoBehaviour
 
     private void Start()
     {
+        if (content == null)
+        {
+            Debug.LogError("“ü‚Á‚Ä‚È‚¢‚æ");
+            return;
+        }
+
         bulletQueue = new Queue<PoolContent>(maxBullet);
 
         for(int i = 0; i < maxBullet; i++)

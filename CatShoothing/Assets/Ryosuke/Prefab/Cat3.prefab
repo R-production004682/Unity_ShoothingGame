@@ -124,11 +124,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   catSpeed: 0.3
   waitTime: 3
-  catMovement: 6
+  catMovement: 4.5
   col: {fileID: 288278714892630826}
   shotSE: {fileID: 8300000, guid: 246851e14a5d66842b68cd6a1a030761, type: 3}
-  clearSE: {fileID: 8300000, guid: 1a085499ba29f7e4fb77c42aeeb1114d, type: 3}
   isClear: 0
+  allCatsHit: 0
 --- !u!61 &288278714892630826
 BoxCollider2D:
   m_ObjectHideFlags: 0

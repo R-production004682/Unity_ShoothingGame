@@ -13,7 +13,6 @@ public class CatController : MonoBehaviour
     [SerializeField, Tooltip("ˆÚ“®—Ê")] private float catMovement;
     [SerializeField, Tooltip("Collider‚ğŠi”[")] private Collider2D col;
     [SerializeField, Tooltip("ƒTƒEƒ“ƒh‚ÌŠi”[")] private AudioClip shotSE;
-    [SerializeField, Tooltip("ƒTƒEƒ“ƒh‚ÌŠi”[")] private AudioClip clearSE;
 
     public bool isClear;
     public bool allCatsHit;
@@ -175,7 +174,6 @@ public class CatController : MonoBehaviour
             Debug.Log("Game clear!");
             // ‚±‚±‚ÉƒNƒŠƒAˆ—‚ğ’Ç‰Á
             StartCoroutine(TransitionScene());
-            source.PlayOneShot(clearSE);
         }
     }
 

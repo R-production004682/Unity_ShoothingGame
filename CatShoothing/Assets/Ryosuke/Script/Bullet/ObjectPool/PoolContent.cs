@@ -6,7 +6,7 @@ public class PoolContent : MonoBehaviour
 {
     ObjectPool pool;
 
-    private void Awake()
+    private void Start()
     {
         pool = transform.parent.GetComponent<ObjectPool>();
         gameObject.SetActive(false);
@@ -23,6 +23,12 @@ public class PoolContent : MonoBehaviour
     public void Hide()
     {
         Debug.Assert(gameObject.activeInHierarchy);
+
+        if(pool == null)
+        {
+            pool = transform.parent.GetComponent<ObjectPool>();
+        }
+
         pool.Collect(this);
     }
 }
