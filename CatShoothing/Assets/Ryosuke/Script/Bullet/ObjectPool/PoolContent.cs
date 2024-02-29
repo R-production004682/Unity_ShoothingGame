@@ -6,7 +6,7 @@ public class PoolContent : MonoBehaviour
 {
     ObjectPool pool;
 
-    private void Start()
+    private void Awake()
     {
         pool = transform.parent.GetComponent<ObjectPool>();
         gameObject.SetActive(false);

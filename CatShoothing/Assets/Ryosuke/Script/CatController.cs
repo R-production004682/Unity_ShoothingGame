@@ -3,15 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CatController : MonoBehaviour
 {
+
     [SerializeField, Tooltip("”L‚ÌˆÚ“®ƒXƒs[ƒh")] private float catSpeed;
     [SerializeField, Tooltip("‘Ò‹@ŠÔ")] private float waitTime;
     [SerializeField, Tooltip("ˆÚ“®—Ê")] private float catMovement;
+    [SerializeField, Tooltip("Collider‚ğŠi”[")] private Collider2D col;
+    [SerializeField, Tooltip("ƒTƒEƒ“ƒh‚ÌŠi”[")] private AudioClip shotSE;
+    [SerializeField, Tooltip("ƒTƒEƒ“ƒh‚ÌŠi”[")] private AudioClip clearSE;
 
-    [SerializeField, Tooltip("”L‚ÌBoxCollider‚ğŠi”[‚µ‚Ä‚¨‚­êŠ")]
-    private Collider2D col;
+    public bool isClear;
+    public bool allCatsHit;
 
     private Vector2 startPosition;
     private Vector2 originPosition;
@@ -21,14 +26,21 @@ public class CatController : MonoBehaviour
     private bool isBreakTime;
     private float waitTimer = 0f;
 
+    AudioSource source;
+    Spawner spawner;
+
     private void Start()
     {
         originPosition = transform.position;
         anim = GetComponent<Animator>();
+        source = GetComponent<AudioSource>();
 
         catMovement = UnityEngine.Random.Range(0, catMovement);
 
         col.enabled = true;
+
+        spawner = FindObjectOfType<Spawner>();
+        allCatsHit = false;
     }
 
     private void Update()
@@ -111,7 +123,7 @@ public class CatController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("PlayerBullet"))
+        if (other.CompareTag("PlayerBullet"))
         {
             isBreakTime = true;
             col.enabled = false;
@@ -123,17 +135,18 @@ public class CatController : MonoBehaviour
             {
                 anim.SetBool("IsEat", true);
                 StartCoroutine(EatingTime_And_SleepTime());
-
             }
+            source.PlayOneShot(shotSE);
+            BulletHit();
         }
     }
 
     private IEnumerator EatingTime_And_SleepTime()
     {
-        float eatingTime =  UnityEngine.Random.Range(2.0f , 4.0f);
+        float eatingTime = UnityEngine.Random.Range(2.0f, 4.0f);
         yield return new WaitForSeconds(eatingTime);
 
-        anim.SetBool("IsEat" , false);
+        anim.SetBool("IsEat", false);
         anim.SetBool("IsReadySleep", true);
 
         yield return new WaitForSeconds(2.0f);
@@ -142,6 +155,37 @@ public class CatController : MonoBehaviour
         anim.SetBool("IsSleep", true);
     }
 
+    public void BulletHit()
+    {
+        isClear = true;
 
+        // ‚·‚×‚Ä‚Ì”L‚ª’e‚É“–‚½‚Á‚½‚©‚Ç‚¤‚©‚ğŠm”F
+        allCatsHit = true;
+        foreach (CatController cat in spawner.spawnedCats)
+        {
+            if (!cat.isClear)
+            {
+                allCatsHit = false;
+                break;
+            }
+        }
 
+        if (allCatsHit)
+        {
+            Debug.Log("Game clear!");
+            // ‚±‚±‚ÉƒNƒŠƒAˆ—‚ğ’Ç‰Á
+            StartCoroutine(TransitionScene());
+            source.PlayOneShot(clearSE);
+        }
+    }
+
+    /// <summary>
+    /// ƒQ[ƒ€ƒNƒŠƒAŒã‚ÉScene‚ğGameClearScene‚ÉˆÚ“®‚³‚¹‚é
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator TransitionScene()
+    {
+        yield return new WaitForSeconds(7.0f);
+        SceneManager.LoadScene("GameClearScene");
+    }
 }

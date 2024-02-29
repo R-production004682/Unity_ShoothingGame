@@ -247,6 +247,7 @@ MonoBehaviour:
   particlePool: {fileID: 0}
   p_BulletPool: {fileID: 1282110412}
   playerObj: {fileID: 2068098482}
+  isClear: 0
 --- !u!4 &1163942616
 Transform:
   m_ObjectHideFlags: 0
@@ -354,6 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2715b0302f3a58048a511626f9f1c586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisGameObject: {fileID: 1326452614}
   cats:
   - {fileID: 5552300593186300676, guid: 5b9391959baaab64183aee9f1a61db1a, type: 3}
   - {fileID: 9194761146888851019, guid: 359024054f8bf424ebfb481d1f23f8f1, type: 3}
@@ -367,10 +369,10 @@ MonoBehaviour:
   - {fileID: 5552300593186300676, guid: 5b9391959baaab64183aee9f1a61db1a, type: 3}
   - {fileID: 9194761146888851019, guid: 359024054f8bf424ebfb481d1f23f8f1, type: 3}
   - {fileID: 7519724274584873202, guid: fbbda5e0d679e5844baed801d6511328, type: 3}
-  random_pickUp: 4
+  random_pickUp: 1
+  spawnedCats: []
   spawning_upper_limitX: 6
   spawning_upper_limitY: 3
-  spawn_cat_ferstPositions: []
 --- !u!1 &2068098478
 GameObject:
   m_ObjectHideFlags: 0

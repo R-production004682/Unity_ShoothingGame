@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GCS
+public class RT
 {
-    public void ChengeScene_GCS() {
-        SceneManager.LoadScene("GameClearScene");
+    public void ChengeScene_RT()
+    {
+        SceneManager.LoadScene("TitleScene");
     }
 }

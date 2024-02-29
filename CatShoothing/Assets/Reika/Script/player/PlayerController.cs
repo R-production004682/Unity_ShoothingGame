@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float playerMoveSpeed = 2.0f;
+    public float leftLim  = -5.0f;
+    public float rightLim =  5.0f;
 
     private float interval = .0f;
     private ObjectPool bulletPool;
@@ -21,6 +23,9 @@ public class PlayerController : MonoBehaviour
     {
         currentPosition    = this.transform.localPosition;
         float newXPosition = currentPosition.x + horizontal * Time.deltaTime * playerMoveSpeed;
+
+        newXPosition = Mathf.Clamp(newXPosition , leftLim , rightLim);
+
         transform.position = new Vector2(newXPosition, -4.0f);
     }
 
@@ -37,7 +42,7 @@ public class PlayerController : MonoBehaviour
             if (bullet != null)
                 bullet.GetComponent<BulletMove>().speed = 10;
 
-            interval = 1.0f;
+            interval = .7f;
         }
     }
 }

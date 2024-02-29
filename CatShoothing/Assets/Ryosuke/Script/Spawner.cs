@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -7,44 +9,60 @@ using UnityEngine;
 /// </summary>
 public class Spawner : MonoBehaviour
 {
+
+    [SerializeField, Tooltip("©•ª‚ğŠi”[")]
+    private GameObject thisGameObject;
     [SerializeField, Tooltip("”L‚ÌƒvƒŒƒnƒu‚ğŠi”[")]
-    protected List<GameObject> cats;
+    public List<GameObject> cats;
     [SerializeField, Tooltip("ƒXƒ|[ƒ“‚ÌÅ¬¶¬”")]
-    protected int random_pickUp;
+    public int random_pickUp;
+
+    [SerializeField, Tooltip("¶¬‚³‚ê‚½‚·‚×‚Ä‚Ì”L‚ÌQÆ")]
+    public List<CatController> spawnedCats = new List<CatController>();
+
 
     //ƒXƒ|[ƒ“•`‰æãŒÀ‚ğİ’è
     public float spawning_upper_limitX = 6.0f;
     public float spawning_upper_limitY = 4.0f;
 
     private List<Vector2> spawn_cat_ferstPositions = new List<Vector2>();
+    private List<int> isClearChecks = new List<int>();
 
 
     private void Start()
     {
+
         if (cats == null || cats.Count == 0) return;
 
-        random_pickUp = Random.Range(random_pickUp , cats.Count);
+        random_pickUp = 
+            UnityEngine.Random.Range(random_pickUp , Mathf.Min(random_pickUp , cats.Count));
 
 
         //spawnPositrions‚É’Ç‰Á‚³‚ê‚é—v‘f”‚ªrandomPickup‚ğ’´‚¦‚È‚¢‚æ‚¤‚É§ŒÀ
         for(int i = 0; i < random_pickUp && spawn_cat_ferstPositions.Count < random_pickUp; i++)
         {
-            int random_create_actor = Random.Range(0 , random_pickUp);
+            int random_create_actor = UnityEngine.Random.Range(0 , random_pickUp);
             Vector2 spawn_cat_position = GetvalidSpawnPosition();
 
             if (spawn_cat_position == Vector2.zero) break;
 
 
             GameObject new_cat = Instantiate
-                (cats[random_create_actor] , spawn_cat_position , Quaternion.identity);
+                (cats[random_create_actor] , spawn_cat_position , Quaternion.identity , thisGameObject.transform);
 
-            CatController cat_controller = new_cat.GetComponent<CatController>();
-            
-            if(cat_controller != null)
+
+            if (new_cat != null)
             {
-                cat_controller.SetStartPosition(spawn_cat_position);
+                CatController cat_controller = new_cat.GetComponent<CatController>();
+                if (cat_controller != null)
+                {
+                    cat_controller.SetStartPosition(spawn_cat_position);
+                    spawnedCats.Add(cat_controller);
+                }
             }
+
             spawn_cat_ferstPositions.Add(spawn_cat_position);
+            isClearChecks.Add(spawn_cat_ferstPositions.Count);
         }
     }
 
@@ -61,8 +79,8 @@ public class Spawner : MonoBehaviour
         while(number_of_attemots < 100)
         {
             spawn_position = new Vector2
-                (Random.Range(-spawning_upper_limitX, spawning_upper_limitX)
-               , Random.Range(1, spawning_upper_limitY + 1));
+                (UnityEngine.Random.Range(-spawning_upper_limitX, spawning_upper_limitX)
+               , UnityEngine.Random.Range(1, spawning_upper_limitY + 1));
 
             if (IsPositionValid(spawn_position)) return spawn_position;
 
