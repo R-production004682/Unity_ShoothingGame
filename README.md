@@ -7,7 +7,7 @@ ___
 ### ゲームのプレイの様子  
 下のリンクからYoutubeに飛んで、動画が見れます。  
 ぜひご覧ください!! 
-https://youtu.be/z7tWed1a6Oc
+[https://youtu.be/z7tWed1a6Oc](https://youtu.be/APZNRxxL81U)
 ___  
 ### 詳細  
 | データ管理ツール | GitHub、SourceTree (ブランチ管理がしやすいので採用しました。)|
@@ -24,3 +24,5 @@ ___
 彼女にはアウトゲーム側と、デザインの方を頑張ってもらいました。
 
 ---
+また、今回の開発の仕様書があるのでそちらも併せてご覧ください。
+https://rproduction.notion.site/632cb6f5603b4f0e93e04a76c0efa469?pvs=4
