@@ -7,8 +7,8 @@
 ___
 ### ゲームのプレイの様子  
 下のリンクからYoutubeに飛んで、動画が見れます。  
-ぜひご覧ください!! 　　
-[https://youtu.be/z7tWed1a6Oc](https://youtu.be/APZNRxxL81U)
+ぜひご覧ください!!  
+https://youtu.be/APZNRxxL81U
 ___  
 ### 詳細  
 | データ管理ツール | GitHub、SourceTree (ブランチ管理がしやすいので採用しました。)|
